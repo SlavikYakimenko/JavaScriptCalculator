@@ -1,0 +1,93 @@
+
+body {
+    font-family: 'Open Sans', sans-serif;
+    background: #e9e9e9;
+}
+
+.container {
+    width: 1000px;
+    height: 550px;
+    margin: 60px auto;
+}
+
+.calculator {
+    box-shadow: -6px -6px 9px #fff, 6px 6px 9px rgba(0, 0, 0, 0.4);
+    width: 320px;
+    height: 520px;
+    margin: 0 auto;
+    padding: 2rem;
+    border-radius: 30px;
+    top: 20px;
+}
+
+.result {
+    height: 120px;
+    box-shadow: inset -6px -6px 9px #fff, inset 6px 6px 9px rgba(0, 0, 0, 0.4);
+    border: none;
+    border-radius: 30px;
+    text-shadow: -1px -1px 2px #fff, 2px 2px 2px rgba(0, 0, 0, 0.4);
+
+}
+
+.history {
+    text-align: right;
+    height: 20px;
+    margin: 0 20px;
+    padding-top: 20px;
+    font-size: 15px;
+    color: #919191;
+}
+
+.output {
+    text-align: right;
+    height: 60px;
+    margin: 10px 20px;
+    font-size: 30px;
+
+}
+
+.number, .operator, .empty {
+    width: 50px;
+    height: 50px;
+    margin-bottom: 15px;
+    float: left;
+    font-size: 16px;
+}
+
+.number {
+    color: #444444;
+}
+
+.operator {
+    color: #d60505;
+}
+
+.number:focus, .operator:focus, .empty:focus {
+    outline: 0;
+}
+
+.keyboard {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 0.8rem;
+    margin-top: 20px;
+}
+
+.keyboard button {
+    box-shadow: -6px -6px 9px #fff, 6px 6px 9px rgba(0, 0, 0, 0.4);
+    width: 50px;
+    height: 50px;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    background: #e9e9e9;
+}
+
+.keyboard button:hover, .keyboard button:active {
+    background: #ccc;
+    transition: .3s;
+}
+
+.keyboard button:active {
+    box-shadow: inset -6px -6px 9px #fff, inset 6px 6px 9px rgba(0, 0, 0, 0.4);
+}
