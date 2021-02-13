@@ -1,82 +1,81 @@
-function getHistory() {
-    return document.getElementById("history-value").innerText;
+var resultFieldNumber = document.getElementById('result-value');
+var operatorField = document.getElementById('operator-value');
+var historyFieldNumber = document.getElementById('history-value');
+var arrayOfNumberElements = document.getElementsByClassName('numbers');
+var arrayOfDefaultOperations = document.getElementsByClassName('operator-btn');
+var clear = document.getElementById('clear');
+var equals = document.getElementById('equals');
+var dot = document.getElementById('dot');
+
+for (var i = 0; i < arrayOfNumberElements.length; i++) {
+    arrayOfNumberElements[i].addEventListener("click", writeNumber);
 }
 
-function printHistory(num) {
-    document.getElementById("history-value").innerText = num;
+for (var k = 0; k < arrayOfDefaultOperations.length; k++) {
+    arrayOfDefaultOperations[k].addEventListener("click", writeOperator);
 }
 
-function getOutput() {
-    return document.getElementById("output-value").innerText;
+clear.addEventListener('click', clearAction);
+dot.addEventListener('click', dotAction);
+equals.addEventListener('click', equalsAction);
+
+
+function writeNumber() {
+    for (var count = 0; count < 10; count++) {
+        if (this.id === count.toLocaleString()) {
+            resultFieldNumber.innerText = resultFieldNumber.innerText.concat(this.id);
+        }
+    }
 }
 
-function printOutput(num) {
-    if (num == "") {
-        document.getElementById("output-value").innerText = num;
+function writeOperator() {
+    operatorField.innerText = this.id;
+    historyFieldNumber.innerText = resultFieldNumber.innerText
+    resultFieldNumber.innerText = "";
+}
+
+function clearAction() {
+    resultFieldNumber.innerText = "";
+    operatorField.innerText = "";
+    historyFieldNumber.innerText = "";
+}
+
+function dotAction() {
+    if (resultFieldNumber.innerText !== "" && !resultFieldNumber.innerText.includes('.')) {
+        resultFieldNumber.innerText = resultFieldNumber.innerText.concat(".");
+    }
+}
+
+
+function equalsAction() {
+    if (historyFieldNumber.innerText !== "" && resultFieldNumber.innerText !== "") {
+        switch (operatorField.innerText) {
+            case "+":
+                resultFieldNumber.innerText = (parseFloat(historyFieldNumber.innerText) + parseFloat(resultFieldNumber.innerText)).toLocaleString();
+                break;
+            case "-":
+                resultFieldNumber.innerText = (parseFloat(historyFieldNumber.innerText) - parseFloat(resultFieldNumber.innerText)).toLocaleString();
+                break;
+            case "/":
+                if (parseInt(resultFieldNumber.innerText) === 0) {
+                    alert('Error: на ноль делить нельзя')
+                    resultFieldNumber.innerText = "";
+                    operatorField.innerText = "";
+                    historyFieldNumber.innerText = "";
+                    break;
+                }
+                resultFieldNumber.innerText = (parseFloat(historyFieldNumber.innerText) / parseFloat(resultFieldNumber.innerText)).toLocaleString();
+                break;
+            case "*":
+                resultFieldNumber.innerText = (parseFloat(historyFieldNumber.innerText) * parseFloat(resultFieldNumber.innerText)).toLocaleString();
+                break;
+        }
     } else {
-        document.getElementById("output-value").innerText = getFormattedNumber(num);
+        alert('Error: для работы необходимо два числа');
+        resultFieldNumber.innerText = "";
+        operatorField.innerText = "";
+        historyFieldNumber.innerText = "";
     }
-}
-
-function getFormattedNumber(num) {
-    if (num == "-") {
-        return "";
-    }
-    let n = Number(num);
-    let value = n.toLocaleString("en");
-    return value;
-}
-
-function reverseNumberFormat(num) {
-    return Number(num.replace(/,/g, ''));
-}
-
-let operator = document.getElementsByClassName("operator");
-let i;
-for (i = 0; i < operator.length; i++) {
-    operator[i].addEventListener('click', function () {
-        let output;
-        if (this.id == "clear") {
-            printHistory("");
-            printOutput("");
-        } else if (this.id == "backspace") {
-            output = reverseNumberFormat(getOutput()).toString();
-            if (output) {//if output has a value
-                output = output.substr(0, output.length - 1);
-                printOutput(output);
-            }
-        } else {
-            output = getOutput();
-            let history = getHistory();
-            if (output == "" && history != "") {
-                if (isNaN(history[history.length - 1])) {
-                    history = history.substr(0, history.length - 1);
-                }
-            }
-            if (output != "" || history != "") {
-                output = output == "" ? output : reverseNumberFormat(output);
-                history = history + output;
-                if (this.id == "=") {
-                    let result = eval(history);
-                    printOutput(result);
-                    printHistory("");
-                } else {
-                    history = history + this.id;
-                    printHistory(history);
-                    printOutput("");
-                }
-            }
-        }
-
-    });
-}
-let number = document.getElementsByClassName("number");
-for (i = 0; i < number.length; i++) {
-    number[i].addEventListener('click', function () {
-        let output = reverseNumberFormat(getOutput());
-        if (output != NaN) { //if output is a number
-            output = output + this.id;
-            printOutput(output);
-        }
-    });
+    historyFieldNumber.innerText = "";
+    operatorField.innerText = "";
 }
